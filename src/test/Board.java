@@ -10,8 +10,8 @@ public class Board {
         board = new Tile[15][15];
         specialBoard  = new int[15][15];
         first =0;
-        for(int i =0 ;i<board.length;i++){
-            for(int j =0;j<board[i].length;j++){
+        for(int i =0 ;i<15;i++){
+            for(int j =0;j<15;j++){
                 board[i][j] = null;
                 specialBoard[i][j] = 0;
             }
@@ -87,37 +87,31 @@ public class Board {
         return checkBoard;
     }
     public int tryPlaceWord(Word wod){
-        if(boardLegal(wod)==false){return 0;}
-        if(wod.vertical == false){
+        if(!boardLegal(wod)){return 0;}
+        if(!wod.vertical){
             int z = 0 ;
             for(int i = wod.col;i<wod.col+wod.tiles.length;i++){
                 if(wod.tiles[z] != null){
                     board[wod.row][i] = wod.tiles[z];
-                    z+=1;
                 }
-                else{
-                    z+=1;
-                }
+                z+=1;
             }
         }
-        if(wod.vertical == true){
+        if(wod.vertical){
             int z = 0 ;
             for(int i = wod.row;i<wod.row+wod.tiles.length;i++){
                 if(wod.tiles[z] != null){
                     board[i][wod.col] = wod.tiles[z];
-                    z+=1;
                 }
-                else{
-                    z+=1;
-                }
+                z+=1;
             }
         }
         ArrayList<Word> myWords = getWords(wod);
         int sum = 0;
         for(int i = 0 ; i < myWords.size();i++){
-            if(dictionaryLegal(myWords.get(i)) == false){
+            if(!dictionaryLegal(myWords.get(i))){
                 int z = 0;
-                if(wod.vertical == true){
+                if(wod.vertical){
                     for(int j = wod.row;j<wod.row + wod.tiles.length;j++){
                         if(wod.tiles[z] == null){
                             z+=1;
@@ -127,7 +121,7 @@ public class Board {
                             board[j][wod.col] = null;}
                     }
                 }
-                if(wod.vertical == false){
+                if(!wod.vertical){
                     for(int j = wod.col;j<wod.col + wod.tiles.length;j++){
                         if(wod.tiles[z] == null){
                             z+=1;
@@ -145,21 +139,21 @@ public class Board {
     }
     public boolean boardLegal(Word wod){
         if(first == 0){
-            if(checkFirstStar(wod)==false){return false;}
+            if(!checkFirstStar(wod)){return false;}
         }
-        if(checkIfInside(wod)==false){return false;}
-        if(overlapping(wod)==false){return false;}
-        if(checkIfEx(wod)==false){return false;}
+        if(!checkIfInside(wod)){return false;}
+        if(!overlapping(wod)){return false;}
+        if(!checkIfEx(wod)){return false;}
         return true;
     }
     public boolean dictionaryLegal(Word wod){return true;}
     public ArrayList<Word> getWords(Word wod) {
-        int ncol = 0;
-        int nrow = 0;
-        ArrayList<Word> wordlist = new ArrayList<Word>();
-        if (wod.vertical == true) {
-            int i = wod.row;
-            int j =0;
+        int ncol;
+        int nrow;
+        ArrayList<Word> wordlist = new ArrayList<>();
+        if (wod.vertical) {
+            int i;
+            int j;
             Tile[] ftiles = new Tile[wod.tiles.length];
             i = wod.row;
             j =0;
@@ -171,9 +165,9 @@ public class Board {
             }
                 wordlist.add(new Word(ftiles,wod.row,wod.col,true));
         }
-        if (wod.vertical == false) {
-            int i = wod.col;
-            int j =0;
+        if (!wod.vertical) {
+            int i;
+            int j;
             Tile[] ftiles = new Tile[wod.tiles.length];
             i = wod.col;
             j =0;
@@ -186,7 +180,7 @@ public class Board {
                 wordlist.add(new Word(ftiles,wod.row,wod.col,false));
         }
         int x =0;
-        if (wod.vertical == true) {
+        if (wod.vertical) {
             for (int i = wod.row; i < wod.row + wod.tiles.length - 1; i++) {
                 if(wod.tiles[x] == null){
                     x+=1;
@@ -258,7 +252,7 @@ public class Board {
                 }
             }
         }
-        if (wod.vertical == false) {
+        if (!wod.vertical) {
             for (int i = wod.col; i < wod.col + wod.tiles.length; i++) {
                 if(wod.tiles[x] == null){
                     x+=1;
@@ -336,7 +330,7 @@ public class Board {
     public int getScore(Word wod){
         int sumoftheword =0;
         int sum=0;
-        if(wod.vertical==true){
+        if(wod.vertical){
             int z = 0;
             for(int i = 0;i<wod.tiles.length;i++){sumoftheword+=wod.tiles[i].score;}
             sum+=sumoftheword;
@@ -356,7 +350,7 @@ public class Board {
                 z+=1;
             }
         }
-        if(wod.vertical==false){
+        if(!wod.vertical){
             int z = 0;
             for(int i = 0;i<wod.tiles.length;i++){sumoftheword+=wod.tiles[i].score;}
             sum+=sumoftheword;
@@ -380,12 +374,12 @@ public class Board {
         return sum;
     }
     public boolean checkIfInside(Word wod){
-        if (wod.vertical == true){
+        if (wod.vertical){
             if (wod.row + wod.tiles.length - 1 < 15 && wod.row>=0){
                 return true;
             }
         }
-        if (wod.vertical == false){
+        if (!wod.vertical){
             if (wod.col + wod.tiles.length - 1 < 15 && wod.col>=0){
                 return true;
             }
@@ -393,13 +387,13 @@ public class Board {
         return false;
     }
     public boolean checkFirstStar(Word wod){
-        if (wod.vertical == true){
+        if (wod.vertical){
             if(wod.col != 7){return false;}
             if (wod.row + wod.tiles.length - 1 < 7){
                 return false;
             }
         }
-        if (wod.vertical == false){
+        if (!wod.vertical){
             if(wod.row != 7){return false;}
             if(wod.col + wod.tiles.length - 1 < 7){
                 return false;
@@ -409,14 +403,14 @@ public class Board {
     }
     public boolean overlapping(Word wod){
         if(first == 0){return true;}
-        if (wod.vertical == true){
+        if (wod.vertical){
             for(int i =wod.row ;i<wod.row + wod.tiles.length - 1;i++){
                 if(wod.col == 14){if(board[i][wod.col-1]!=null){return true;}}
                 if(wod.col == 0){if(board[i][wod.col+1]!=null){return true;}}
                 else{if(board[i][wod.col-1]!=null || board[i][wod.col+1]!=null){return true;}}
             }
         }
-        if (wod.vertical == false){
+        if (!wod.vertical){
             for(int i =wod.col ;i<wod.col + wod.tiles.length - 1;i++){
                 if(wod.row == 14){if(board[wod.row-1][i]!=null){return true;}}
                 if(wod.row == 0){if(board[wod.row+1][i]!=null){return true;}}
@@ -426,7 +420,7 @@ public class Board {
         return false;
     }
     public boolean checkIfEx(Word wod){
-        if (wod.vertical == true){
+        if (wod.vertical){
             int j =0 ;
             for(int i =wod.row ;i<wod.row + wod.tiles.length - 1;i++){
                 if(board[i][wod.col]!= null && wod.tiles[j]!=null){
@@ -435,7 +429,7 @@ public class Board {
                 j+=1;
             }
         }
-        if (wod.vertical == false){
+        if (!wod.vertical){
             int j =0 ;
             for(int i =wod.col ;i<wod.col + wod.tiles.length - 1;i++){
                 if(board[wod.row][i]!= null && wod.tiles[j]!=null){
