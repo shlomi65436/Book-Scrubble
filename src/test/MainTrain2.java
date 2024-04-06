@@ -3,7 +3,7 @@ package test;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-public class MainTrain {
+public class MainTrain2 {
 	
 	public static void testLRU() {
 		CacheReplacementPolicy lru=new LRU();
